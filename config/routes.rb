@@ -14,8 +14,14 @@ Rails.application.routes.draw do
   get     '/login', to: "sessions#new"
   post    '/login', to: "sessions#create"
   delete  '/logout',  to: 'sessions#destroy'
-  resources :users
+  resources :users do
+    member do  #arranges for the proceeding routes to respond to user id (users/1/following)
+      get :following, :followers #use 'get' because we are displaying data on these pages
+    end
+  end
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :microposts,          only: [:create, :destroy]
+  resources :relationships,       only: [:create, :destroy]
+  
 end
